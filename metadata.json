@@ -1,0 +1,6 @@
+{
+  "name": "Nicdemus Store",
+  "description": "A luxury 2026 fashion and lifestyle e-commerce store with clothing, shoes, bags, accessories, lifestyle goods, floating cart, bank transfer checkout, and order tracking.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
