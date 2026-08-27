@@ -87,6 +87,20 @@ export const Navbar: React.FC = () => {
     }
   }, [isSearchOpen]);
 
+  // Prevent body scroll when mobile menu is open
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    
+    // Cleanup on unmount
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isMobileMenuOpen]);
+
   const searchResults = searchInput.trim()
     ? products.filter(p =>
         p.name.toLowerCase().includes(searchInput.toLowerCase()) ||
