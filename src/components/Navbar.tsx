@@ -569,137 +569,150 @@ export const Navbar: React.FC = () => {
       {isMobileMenuOpen && (
         <div className="lg:hidden fixed inset-x-0 top-[120px] bottom-0 bg-[#FAF8F5] border-b border-[#E8E2D8] shadow-2xl overflow-y-auto z-50 animate-in slide-in-from-top-2 duration-200">
           <div className="p-5 sm:p-6 space-y-4 pb-20">
-            <div className="p-5 sm:p-6 space-y-4 pb-20">
-              {/* Mobile User Profile Bar */}
-              {user && (
-                <div
-                  onClick={() => handleNavClick('account')}
-                  className="p-3 bg-white border border-[#E8E2D8] rounded-xl flex items-center justify-between cursor-pointer hover:bg-[#F3EFEA] transition-colors"
-                >
-                  <div className="flex items-center gap-3">
-                    <img
-                      src={user.avatar}
-                      alt={user.fullName}
-                      referrerPolicy="no-referrer"
-                      className="w-10 h-10 rounded-full object-cover border border-[#DDD5C7]"
-                    />
-                    <div>
-                      <p className="text-xs font-bold text-[#121212]">{user.fullName}</p>
-                      <p className="text-[10px] text-[#777777] font-mono">{user.email}</p>
-                    </div>
+            {/* Mobile User Profile Bar or Sign In Prompt */}
+            {user ? (
+              <div
+                onClick={() => handleNavClick('account')}
+                className="p-3 bg-white border border-[#E8E2D8] rounded-xl flex items-center justify-between cursor-pointer hover:bg-[#F3EFEA] transition-colors"
+              >
+                <div className="flex items-center gap-3">
+                  <img
+                    src={user.avatar}
+                    alt={user.fullName}
+                    referrerPolicy="no-referrer"
+                    className="w-10 h-10 rounded-full object-cover border border-[#DDD5C7]"
+                  />
+                  <div>
+                    <p className="text-xs font-bold text-[#121212]">{user.fullName}</p>
+                    <p className="text-[10px] text-[#777777] font-mono">{user.email}</p>
                   </div>
-                  <span className="text-[10px] uppercase font-bold text-amber-700 bg-amber-50 px-2 py-1 rounded-md border border-amber-200">
-                    VIP Account
-                  </span>
                 </div>
+                <span className="text-[10px] uppercase font-bold text-amber-700 bg-amber-50 px-2 py-1 rounded-md border border-amber-200">
+                  VIP Account
+                </span>
+              </div>
+            ) : (
+              <div
+                onClick={() => handleNavClick('account')}
+                className="p-4 bg-gradient-to-br from-[#121212] to-[#2A2A2A] text-white border border-[#333333] rounded-xl cursor-pointer hover:from-[#2A2A2A] hover:to-[#121212] transition-all shadow-lg"
+              >
+                <div className="flex items-center justify-between">
+                  <div className="space-y-1">
+                    <p className="text-sm font-bold text-white">Sign In to Your Account</p>
+                    <p className="text-[11px] text-zinc-300">Access VIP benefits, orders & wishlist</p>
+                  </div>
+                  <ChevronRight className="w-5 h-5 text-amber-400" />
+                </div>
+              </div>
+            )}
+
+            {/* Mobile Search Bar */}
+            <form onSubmit={handleSearchSubmit} className="relative flex items-center">
+              <Search className="w-4 h-4 text-[#8C8275] absolute left-3.5 pointer-events-none" />
+              <input
+                type="text"
+                value={searchInput}
+                onChange={e => setSearchInput(e.target.value)}
+                placeholder="Search cashmere, blazers, bags..."
+                className="w-full pl-9 pr-9 py-2.5 text-xs rounded-xl border border-[#DDD5C7] bg-white text-[#121212] placeholder-[#8C8275] outline-none focus:border-[#121212]"
+              />
+              {searchInput && (
+                <button
+                  type="button"
+                  onClick={() => setSearchInput('')}
+                  className="absolute right-3 p-1 text-[#8C8275]"
+                >
+                  <X className="w-3.5 h-3.5" />
+                </button>
               )}
+            </form>
 
-              {/* Mobile Search Bar */}
-              <form onSubmit={handleSearchSubmit} className="relative flex items-center">
-                <Search className="w-4 h-4 text-[#8C8275] absolute left-3.5 pointer-events-none" />
-                <input
-                  type="text"
-                  value={searchInput}
-                  onChange={e => setSearchInput(e.target.value)}
-                  placeholder="Search cashmere, blazers, bags..."
-                  className="w-full pl-9 pr-9 py-2.5 text-xs rounded-xl border border-[#DDD5C7] bg-white text-[#121212] placeholder-[#8C8275] outline-none focus:border-[#121212]"
-                />
-                {searchInput && (
-                  <button
-                    type="button"
-                    onClick={() => setSearchInput('')}
-                    className="absolute right-3 p-1 text-[#8C8275]"
-                  >
-                    <X className="w-3.5 h-3.5" />
-                  </button>
-                )}
-              </form>
-
-              <div className="space-y-0.5 text-xs font-semibold uppercase tracking-wider text-[#2A2A2A]">
-                <button
-                  onClick={() => handleNavClick('home')}
-                  className="w-full text-left py-2.5 px-2 hover:bg-[#F0EBE1] rounded-lg border-b border-[#EFECE6] flex justify-between items-center"
-                >
-                  <span>Home</span>
-                  <ChevronRight className="w-3.5 h-3.5 text-zinc-400" />
-                </button>
-                <button
-                  onClick={() => handleNavClick('shop')}
-                  className="w-full text-left py-2.5 px-2 hover:bg-[#F0EBE1] rounded-lg border-b border-[#EFECE6] flex justify-between items-center font-bold text-[#121212]"
-                >
-                  <span>Shop All Products</span>
-                  <ChevronRight className="w-3.5 h-3.5 text-zinc-400" />
-                </button>
-                <button
-                  onClick={() => handleNavClick('shop', 'clothing')}
-                  className="w-full text-left py-2.5 px-2 hover:bg-[#F0EBE1] rounded-lg border-b border-[#EFECE6] flex justify-between items-center text-[#9E5A3F]"
-                >
-                  <span>Clothing & Tailoring</span>
-                  <ChevronRight className="w-3.5 h-3.5 text-zinc-400" />
-                </button>
-                <button
-                  onClick={() => handleNavClick('shop', 'shoes')}
-                  className="w-full text-left py-2.5 px-2 hover:bg-[#F0EBE1] rounded-lg border-b border-[#EFECE6] flex justify-between items-center"
-                >
-                  <span>Footwear & Shoes</span>
-                  <ChevronRight className="w-3.5 h-3.5 text-zinc-400" />
-                </button>
-                <button
-                  onClick={() => handleNavClick('shop', 'bags')}
-                  className="w-full text-left py-2.5 px-2 hover:bg-[#F0EBE1] rounded-lg border-b border-[#EFECE6] flex justify-between items-center"
-                >
-                  <span>Handcrafted Bags</span>
-                  <ChevronRight className="w-3.5 h-3.5 text-zinc-400" />
-                </button>
-                <button
-                  onClick={() => handleNavClick('shop', 'accessories')}
-                  className="w-full text-left py-2.5 px-2 hover:bg-[#F0EBE1] rounded-lg border-b border-[#EFECE6] flex justify-between items-center"
-                >
-                  <span>Accessories & Eyewear</span>
-                  <ChevronRight className="w-3.5 h-3.5 text-zinc-400" />
-                </button>
-                <button
-                  onClick={() => handleNavClick('shop', 'lifestyle')}
-                  className="w-full text-left py-2.5 px-2 hover:bg-[#F0EBE1] rounded-lg border-b border-[#EFECE6] flex justify-between items-center"
-                >
-                  <span>Maison & Lifestyle</span>
-                  <ChevronRight className="w-3.5 h-3.5 text-zinc-400" />
-                </button>
-                <button
-                  onClick={() => handleNavClick('lookbook')}
-                  className="w-full text-left py-2.5 px-2 hover:bg-[#F0EBE1] rounded-lg border-b border-[#EFECE6] flex justify-between items-center text-amber-800"
-                >
-                  <span>Editorial Lookbook SS26</span>
-                  <ChevronRight className="w-3.5 h-3.5 text-zinc-400" />
-                </button>
-                <button
-                  onClick={() => handleNavClick('atelier')}
-                  className="w-full text-left py-2.5 px-2 hover:bg-[#F0EBE1] rounded-lg border-b border-[#EFECE6] flex justify-between items-center"
-                >
-                  <span>Atelier & Savoir-Faire</span>
-                  <ChevronRight className="w-3.5 h-3.5 text-zinc-400" />
-                </button>
-                <button
-                  onClick={() => handleNavClick('account')}
-                  className="w-full text-left py-2.5 px-2 hover:bg-[#F0EBE1] rounded-lg border-b border-[#EFECE6] flex justify-between items-center"
-                >
-                  <span>Customer Account & Bank Wire</span>
-                  <ChevronRight className="w-3.5 h-3.5 text-zinc-400" />
-                </button>
-              </div>
-
-              <div className="pt-2">
-                <a
-                  href="https://wa.me/2348039002026?text=Hello%20Nicdemus%20Atelier,%20I%20would%20like%20to%20inquire%20about%20your%20collection."
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-full py-3 bg-[#0D0D0D] text-amber-400 hover:bg-black rounded-xl text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 transition-colors border border-amber-400/20"
-                >
-                  <span>WhatsApp VIP Concierge (+234 803 900 2026)</span>
-                </a>
-              </div>
+            <div className="space-y-0.5 text-xs font-semibold uppercase tracking-wider text-[#2A2A2A]">
+              <button
+                onClick={() => handleNavClick('home')}
+                className="w-full text-left py-2.5 px-2 hover:bg-[#F0EBE1] rounded-lg border-b border-[#EFECE6] flex justify-between items-center"
+              >
+                <span>Home</span>
+                <ChevronRight className="w-3.5 h-3.5 text-zinc-400" />
+              </button>
+              <button
+                onClick={() => handleNavClick('shop')}
+                className="w-full text-left py-2.5 px-2 hover:bg-[#F0EBE1] rounded-lg border-b border-[#EFECE6] flex justify-between items-center font-bold text-[#121212]"
+              >
+                <span>Shop All Products</span>
+                <ChevronRight className="w-3.5 h-3.5 text-zinc-400" />
+              </button>
+              <button
+                onClick={() => handleNavClick('shop', 'clothing')}
+                className="w-full text-left py-2.5 px-2 hover:bg-[#F0EBE1] rounded-lg border-b border-[#EFECE6] flex justify-between items-center text-[#9E5A3F]"
+              >
+                <span>Clothing & Tailoring</span>
+                <ChevronRight className="w-3.5 h-3.5 text-zinc-400" />
+              </button>
+              <button
+                onClick={() => handleNavClick('shop', 'shoes')}
+                className="w-full text-left py-2.5 px-2 hover:bg-[#F0EBE1] rounded-lg border-b border-[#EFECE6] flex justify-between items-center"
+              >
+                <span>Footwear & Shoes</span>
+                <ChevronRight className="w-3.5 h-3.5 text-zinc-400" />
+              </button>
+              <button
+                onClick={() => handleNavClick('shop', 'bags')}
+                className="w-full text-left py-2.5 px-2 hover:bg-[#F0EBE1] rounded-lg border-b border-[#EFECE6] flex justify-between items-center"
+              >
+                <span>Handcrafted Bags</span>
+                <ChevronRight className="w-3.5 h-3.5 text-zinc-400" />
+              </button>
+              <button
+                onClick={() => handleNavClick('shop', 'accessories')}
+                className="w-full text-left py-2.5 px-2 hover:bg-[#F0EBE1] rounded-lg border-b border-[#EFECE6] flex justify-between items-center"
+              >
+                <span>Accessories & Eyewear</span>
+                <ChevronRight className="w-3.5 h-3.5 text-zinc-400" />
+              </button>
+              <button
+                onClick={() => handleNavClick('shop', 'lifestyle')}
+                className="w-full text-left py-2.5 px-2 hover:bg-[#F0EBE1] rounded-lg border-b border-[#EFECE6] flex justify-between items-center"
+              >
+                <span>Maison & Lifestyle</span>
+                <ChevronRight className="w-3.5 h-3.5 text-zinc-400" />
+              </button>
+              <button
+                onClick={() => handleNavClick('lookbook')}
+                className="w-full text-left py-2.5 px-2 hover:bg-[#F0EBE1] rounded-lg border-b border-[#EFECE6] flex justify-between items-center text-amber-800"
+              >
+                <span>Editorial Lookbook SS26</span>
+                <ChevronRight className="w-3.5 h-3.5 text-zinc-400" />
+              </button>
+              <button
+                onClick={() => handleNavClick('atelier')}
+                className="w-full text-left py-2.5 px-2 hover:bg-[#F0EBE1] rounded-lg border-b border-[#EFECE6] flex justify-between items-center"
+              >
+                <span>Atelier & Savoir-Faire</span>
+                <ChevronRight className="w-3.5 h-3.5 text-zinc-400" />
+              </button>
+              <button
+                onClick={() => handleNavClick('account')}
+                className="w-full text-left py-2.5 px-2 hover:bg-[#F0EBE1] rounded-lg border-b border-[#EFECE6] flex justify-between items-center"
+              >
+                <span>Customer Account & Bank Wire</span>
+                <ChevronRight className="w-3.5 h-3.5 text-zinc-400" />
+              </button>
             </div>
+
+            <div className="pt-2">
+              <a
+                href="https://wa.me/2348039002026?text=Hello%20Nicdemus%20Atelier,%20I%20would%20like%20to%20inquire%20about%20your%20collection."
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full py-3 bg-[#0D0D0D] text-amber-400 hover:bg-black rounded-xl text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 transition-colors border border-amber-400/20"
+              >
+                <span>WhatsApp VIP Concierge (+234 803 900 2026)</span>
+              </a>
+            </div>
+          </div>
+        </div>
       )}
-          </header>
-          );
+    </header>
+  );
 };
