@@ -28,7 +28,7 @@ interface StoreContextType {
   selectedProductId: string | null;
   navigateToProduct: (productId: string) => void;
   navigateToCategory: (category: FilterState['category']) => void;
-  
+
   // Currency
   currency: Currency;
   setCurrency: (c: Currency) => void;
@@ -632,21 +632,38 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       id: `usr_${Date.now()}`,
       fullName: name || 'Nicholas Agbo',
       email,
-      phone: '+1 (555) 234-8900',
+      phone: '+234 803 456 7890',
       avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80',
       joinedDate: 'August 2026',
       tier: 'VIP Client',
-      addresses: DEMO_USER.addresses
+      addresses: [
+        {
+          id: 'addr_1',
+          label: 'Main Residence (Ikoyi)',
+          fullName: name || 'Nicholas Agbo',
+          street: '24 Bourdillon Road',
+          apartment: 'Penthouse 6B, Bella Vista Towers',
+          city: 'Ikoyi, Lagos',
+          state: 'Lagos State',
+          postalCode: '101233',
+          country: 'Nigeria',
+          phone: '+234 803 456 7890',
+          isDefault: true
+        }
+      ]
     };
     setUser(newUser);
     setIsAuthModalOpen(false);
-    showToast(`Welcome back, ${newUser.fullName}`, 'success');
+    showToast(`Welcome back, ${newUser.fullName}!`, 'success');
   };
 
   const logout = () => {
     setUser(null);
-    showToast('Signed out of your account', 'info');
+    // Clear sensitive user data from localStorage
+    localStorage.removeItem('nicdemus_user');
+    showToast('You have been signed out successfully', 'info');
     setActivePage('home');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const updateProfile = (data: Partial<UserAccount>) => {

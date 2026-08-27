@@ -88,6 +88,15 @@ export const AccountView: React.FC = () => {
   // Profile Edit State
   const [editName, setEditName] = useState(user?.fullName || '');
   const [editPhone, setEditPhone] = useState(user?.phone || '');
+  const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
+
+  // Sync profile edit state when user changes
+  React.useEffect(() => {
+    if (user) {
+      setEditName(user.fullName);
+      setEditPhone(user.phone);
+    }
+  }, [user]);
 
   const handleLoginSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -148,17 +157,15 @@ export const AccountView: React.FC = () => {
           <div className="flex bg-[#F4F0E8] p-1 rounded-xl border border-[#DDD5C7] text-xs font-semibold">
             <button
               onClick={() => setAuthMode('login')}
-              className={`flex-1 py-2 rounded-lg transition-all ${
-                authMode === 'login' ? 'bg-white text-[#121212] shadow-sm' : 'text-[#777777] hover:text-[#121212]'
-              }`}
+              className={`flex-1 py-2 rounded-lg transition-all ${authMode === 'login' ? 'bg-white text-[#121212] shadow-sm' : 'text-[#777777] hover:text-[#121212]'
+                }`}
             >
               Sign In
             </button>
             <button
               onClick={() => setAuthMode('register')}
-              className={`flex-1 py-2 rounded-lg transition-all ${
-                authMode === 'register' ? 'bg-white text-[#121212] shadow-sm' : 'text-[#777777] hover:text-[#121212]'
-              }`}
+              className={`flex-1 py-2 rounded-lg transition-all ${authMode === 'register' ? 'bg-white text-[#121212] shadow-sm' : 'text-[#777777] hover:text-[#121212]'
+                }`}
             >
               Register
             </button>
@@ -230,7 +237,7 @@ export const AccountView: React.FC = () => {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-10">
-      
+
       {/* Header / Profile Hero */}
       <div className="p-6 sm:p-8 rounded-2xl bg-[#F4F0E8] border border-[#E5E0D8] shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-6">
         <div className="flex items-center gap-5">
@@ -255,7 +262,7 @@ export const AccountView: React.FC = () => {
         </div>
 
         <button
-          onClick={logout}
+          onClick={() => setShowLogoutConfirm(true)}
           className="px-4 py-2 bg-white border border-[#DDD5C7] rounded-xl text-xs font-semibold text-[#555555] hover:text-rose-600 hover:border-rose-200 transition-colors flex items-center gap-2 self-start sm:self-auto"
         >
           <LogOut className="w-4 h-4" />
@@ -267,11 +274,10 @@ export const AccountView: React.FC = () => {
       <div className="flex border-b border-[#E5E0D8] overflow-x-auto text-xs font-semibold uppercase tracking-wider text-[#777777]">
         <button
           onClick={() => setActiveTab('orders')}
-          className={`pb-4 px-5 border-b-2 transition-all flex items-center gap-2 shrink-0 ${
-            activeTab === 'orders'
-              ? 'border-[#121212] text-[#121212]'
-              : 'border-transparent hover:text-[#121212]'
-          }`}
+          className={`pb-4 px-5 border-b-2 transition-all flex items-center gap-2 shrink-0 ${activeTab === 'orders'
+            ? 'border-[#121212] text-[#121212]'
+            : 'border-transparent hover:text-[#121212]'
+            }`}
         >
           <Package className="w-4 h-4" />
           <span>Order History & Tracking ({orders.length})</span>
@@ -279,11 +285,10 @@ export const AccountView: React.FC = () => {
 
         <button
           onClick={() => setActiveTab('wishlist')}
-          className={`pb-4 px-5 border-b-2 transition-all flex items-center gap-2 shrink-0 ${
-            activeTab === 'wishlist'
-              ? 'border-[#121212] text-[#121212]'
-              : 'border-transparent hover:text-[#121212]'
-          }`}
+          className={`pb-4 px-5 border-b-2 transition-all flex items-center gap-2 shrink-0 ${activeTab === 'wishlist'
+            ? 'border-[#121212] text-[#121212]'
+            : 'border-transparent hover:text-[#121212]'
+            }`}
         >
           <Heart className="w-4 h-4" />
           <span>Saved Wishlist ({wishlist.length})</span>
@@ -291,11 +296,10 @@ export const AccountView: React.FC = () => {
 
         <button
           onClick={() => setActiveTab('addresses')}
-          className={`pb-4 px-5 border-b-2 transition-all flex items-center gap-2 shrink-0 ${
-            activeTab === 'addresses'
-              ? 'border-[#121212] text-[#121212]'
-              : 'border-transparent hover:text-[#121212]'
-          }`}
+          className={`pb-4 px-5 border-b-2 transition-all flex items-center gap-2 shrink-0 ${activeTab === 'addresses'
+            ? 'border-[#121212] text-[#121212]'
+            : 'border-transparent hover:text-[#121212]'
+            }`}
         >
           <MapPin className="w-4 h-4" />
           <span>Address Book ({user.addresses.length})</span>
@@ -303,11 +307,10 @@ export const AccountView: React.FC = () => {
 
         <button
           onClick={() => setActiveTab('payment-methods')}
-          className={`pb-4 px-5 border-b-2 transition-all flex items-center gap-2 shrink-0 ${
-            activeTab === 'payment-methods'
-              ? 'border-[#121212] text-[#121212]'
-              : 'border-transparent hover:text-[#121212]'
-          }`}
+          className={`pb-4 px-5 border-b-2 transition-all flex items-center gap-2 shrink-0 ${activeTab === 'payment-methods'
+            ? 'border-[#121212] text-[#121212]'
+            : 'border-transparent hover:text-[#121212]'
+            }`}
         >
           <Building2 className="w-4 h-4" />
           <span>Bank Wire & Settlement</span>
@@ -315,11 +318,10 @@ export const AccountView: React.FC = () => {
 
         <button
           onClick={() => setActiveTab('prive-tier')}
-          className={`pb-4 px-5 border-b-2 transition-all flex items-center gap-2 shrink-0 ${
-            activeTab === 'prive-tier'
-              ? 'border-[#121212] text-[#121212]'
-              : 'border-transparent hover:text-[#121212]'
-          }`}
+          className={`pb-4 px-5 border-b-2 transition-all flex items-center gap-2 shrink-0 ${activeTab === 'prive-tier'
+            ? 'border-[#121212] text-[#121212]'
+            : 'border-transparent hover:text-[#121212]'
+            }`}
         >
           <ShieldCheck className="w-4 h-4" />
           <span>Atelier Privé VIP ({user.tier})</span>
@@ -327,11 +329,10 @@ export const AccountView: React.FC = () => {
 
         <button
           onClick={() => setActiveTab('profile')}
-          className={`pb-4 px-5 border-b-2 transition-all flex items-center gap-2 shrink-0 ${
-            activeTab === 'profile'
-              ? 'border-[#121212] text-[#121212]'
-              : 'border-transparent hover:text-[#121212]'
-          }`}
+          className={`pb-4 px-5 border-b-2 transition-all flex items-center gap-2 shrink-0 ${activeTab === 'profile'
+            ? 'border-[#121212] text-[#121212]'
+            : 'border-transparent hover:text-[#121212]'
+            }`}
         >
           <User className="w-4 h-4" />
           <span>Profile & Sizing Profile</span>
@@ -373,23 +374,22 @@ export const AccountView: React.FC = () => {
 
                   <div className="flex items-center gap-3">
                     <span
-                      className={`text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider ${
-                        ord.status === 'delivered'
-                          ? 'bg-emerald-100 text-emerald-800'
-                          : ord.status === 'in_transit'
+                      className={`text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider ${ord.status === 'delivered'
+                        ? 'bg-emerald-100 text-emerald-800'
+                        : ord.status === 'in_transit'
                           ? 'bg-blue-100 text-blue-800'
                           : ord.status === 'payment_pending'
-                          ? 'bg-amber-100 text-amber-800'
-                          : 'bg-[#F0ECE4] text-[#121212]'
-                      }`}
+                            ? 'bg-amber-100 text-amber-800'
+                            : 'bg-[#F0ECE4] text-[#121212]'
+                        }`}
                     >
                       {ord.status === 'payment_pending'
                         ? 'Payment Pending'
                         : ord.status === 'in_transit'
-                        ? 'In Transit'
-                        : ord.status === 'delivered'
-                        ? 'Delivered'
-                        : 'Processing'}
+                          ? 'In Transit'
+                          : ord.status === 'delivered'
+                            ? 'Delivered'
+                            : 'Processing'}
                     </span>
 
                     <button
@@ -532,11 +532,10 @@ export const AccountView: React.FC = () => {
             {user.addresses.map(addr => (
               <div
                 key={addr.id}
-                className={`p-6 rounded-2xl border transition-all relative ${
-                  addr.isDefault
-                    ? 'bg-white border-[#121212] ring-1 ring-[#121212] shadow-sm'
-                    : 'bg-white border-[#E5E0D8]'
-                }`}
+                className={`p-6 rounded-2xl border transition-all relative ${addr.isDefault
+                  ? 'bg-white border-[#121212] ring-1 ring-[#121212] shadow-sm'
+                  : 'bg-white border-[#E5E0D8]'
+                  }`}
               >
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center gap-2">
@@ -884,7 +883,7 @@ export const AccountView: React.FC = () => {
       {selectedOrderForTracking && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm overflow-y-auto">
           <div className="bg-[#FAF8F5] border border-[#E5E0D8] w-full max-w-2xl rounded-2xl shadow-2xl overflow-hidden my-8 animate-in fade-in zoom-in-95 duration-200">
-            
+
             <div className="p-5 bg-[#F4F0E8] border-b border-[#E8E2D8] flex items-center justify-between">
               <div>
                 <span className="text-[10px] uppercase font-bold tracking-widest text-[#888888]">Live DHL Concierge Tracking</span>
@@ -901,7 +900,7 @@ export const AccountView: React.FC = () => {
             </div>
 
             <div className="p-6 space-y-6 max-h-[75vh] overflow-y-auto text-xs">
-              
+
               {/* Courier metadata pill */}
               <div className="p-4 rounded-xl bg-white border border-[#E5E0D8] flex flex-wrap items-center justify-between gap-3">
                 <div>
@@ -919,13 +918,12 @@ export const AccountView: React.FC = () => {
                 {selectedOrderForTracking.timeline.map((step, idx) => (
                   <div key={idx} className="relative">
                     <div
-                      className={`absolute -left-6 top-0.5 w-5 h-5 rounded-full flex items-center justify-center text-[10px] ${
-                        step.completed
-                          ? 'bg-[#121212] text-amber-400'
-                          : step.current
+                      className={`absolute -left-6 top-0.5 w-5 h-5 rounded-full flex items-center justify-center text-[10px] ${step.completed
+                        ? 'bg-[#121212] text-amber-400'
+                        : step.current
                           ? 'bg-amber-500 text-black animate-pulse'
                           : 'bg-[#DDD5C7] text-white'
-                      }`}
+                        }`}
                     >
                       {step.completed ? <Check className="w-3 h-3" /> : idx + 1}
                     </div>
@@ -1130,6 +1128,43 @@ export const AccountView: React.FC = () => {
                 </button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* LOGOUT CONFIRMATION MODAL */}
+      {showLogoutConfirm && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+          <div className="bg-white border border-[#E5E0D8] w-full max-w-md rounded-2xl shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+            <div className="p-6 space-y-4">
+              <div className="text-center space-y-2">
+                <div className="w-12 h-12 rounded-full bg-rose-100 text-rose-600 flex items-center justify-center mx-auto">
+                  <LogOut className="w-6 h-6" />
+                </div>
+                <h3 className="text-lg font-serif font-bold text-[#121212]">Sign Out of Your Account?</h3>
+                <p className="text-xs text-[#777777]">
+                  You'll need to sign in again to access your orders, wishlist, and VIP benefits.
+                </p>
+              </div>
+
+              <div className="flex gap-3 pt-2">
+                <button
+                  onClick={() => setShowLogoutConfirm(false)}
+                  className="flex-1 px-4 py-2.5 border border-[#DDD5C7] rounded-xl text-xs font-semibold text-[#555555] hover:bg-[#FAF8F5] transition-colors"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={() => {
+                    setShowLogoutConfirm(false);
+                    logout();
+                  }}
+                  className="flex-1 px-4 py-2.5 bg-rose-600 text-white rounded-xl text-xs font-semibold hover:bg-rose-700 transition-colors"
+                >
+                  Yes, Sign Out
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       )}
